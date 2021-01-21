@@ -9,6 +9,8 @@ from bokeh.models import (Button, CategoricalColorMapper, ColumnDataSource,
                           HoverTool, Label, SingleIntervalTicker, Slider)
 from bokeh.palettes import Spectral6
 from bokeh.plotting import figure
+import datetime
+
 
 
 # Define paths.
@@ -17,19 +19,29 @@ PATH_DATA = pathlib.Path(os.path.join(dir_path, 'renta'))
 all_df_dict = np.load(PATH_DATA/'my_file.npy', allow_pickle='TRUE').item()
 
 data = {}
+#date start 2002m12
 
-
+# Date 
+dates = []
+dates_all = []
+years = range(2002,2021,1)
+months = range(1, 13, 1)
+for year in years: 
+    for month in months: 
+        dates_all.append(str(month)+'-'+str(year))
+dates_all = dates_all[11:]
 source = ColumnDataSource(data=all_df_dict['0']) 
+dates = dates_all[0]
 TOOLS = 'save,pan,box_zoom,reset,wheel_zoom'
-p = figure(x_range=(1, 16), y_range=(0, 30),title="Kernel de distribución de renta", y_axis_type="linear", plot_height = 400,
+p = figure(x_range=(1, 16), y_range=(0, 30), y_axis_type="linear", plot_height = 400,
            tools = TOOLS, plot_width = 800)
 
 p.vbar(x = 'x', top = 'y', color = 'grey', width = np.min(np.abs(np.array(source.data['x'])[0:-2] - np.array(source.data['x'])[1:-1]))          , visible  = True, source = source)
 
 p.add_tools(HoverTool(tooltips=[("Renta", "@x"), ("Densidad", "@y")]))
-
+p.title.text = "Distribución de renta: " + dates
 #p.xaxis.ticker = SingleIntervalTicker(interval=0)
-p.xaxis.axis_label = 'Renta'
+p.xaxis.axis_label = 'log(Renta)'
 #p.yaxis.ticker = SingleIntervalTicker(interval=0)
 p.yaxis.axis_label = 'Densidad'
 
@@ -37,6 +49,8 @@ def slider_update(attrname, old, new):
     year = slider.value
     # label.text = str(year)
     source.data = all_df_dict[str(year)]
+    dates = dates_all[year]
+    p.title.text = "Distribución de renta: " + dates
 
 slider = Slider(start=0, end=len(all_df_dict) - 1, value=0, step=1, title="Date")
 slider.on_change('value', slider_update)
