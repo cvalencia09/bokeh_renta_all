@@ -50,6 +50,11 @@ dates_all = dates_all[11:]
 source_all = ColumnDataSource(data=all_df_dict['0']) 
 source_all_bySex = ColumnDataSource(data=all_df_bySex['0'])
 
+
+def get_width():
+    ind = np.abs(np.array(source_all.data['x'])[3:-5] - np.array(source_all.data['x'])[4:-4])
+    return np.median(ind)*0.92
+
 dates = dates_all[0]
 TOOLS = 'save,pan,box_zoom,reset,wheel_zoom'
 p = figure(x_range=(1, 16), y_range=(0, 30), y_axis_type="linear",
@@ -57,7 +62,8 @@ p = figure(x_range=(1, 16), y_range=(0, 30), y_axis_type="linear",
 
 p.vbar(x = 'x', top = 'y', 
        color = 'grey', 
-       width = np.median(np.abs(np.array(source_all.data['x'])[0:-2] - np.array(source_all.data['x'])[1:-1])),
+       #width = np.median(np.abs(np.array(source_all.data['x'])[0:-2] - np.array(source_all.data['x'])[1:-1])),
+       width = get_width(),
        visible  = True, 
        source = source_all,
        fill_alpha  = 0.5)
@@ -75,7 +81,8 @@ p_bySex = figure(x_range=(1, 16), y_range=(0, 30), y_axis_type="linear",
            tools = TOOLS, sizing_mode="fixed", width = 800, height = 300)
 
 p_bySex.vbar(x = 'x', top = 'y', 
-       width = np.median(np.abs(np.array(source_all.data['x'])[0:-2] - np.array(source_all.data['x'])[1:-1])),
+       #width = np.median(np.abs(np.array(source_all.data['x'])[0:-2] - np.array(source_all.data['x'])[1:-1])),
+       width = get_width(),
        visible  = True, 
        source = source_all_bySex,
        fill_alpha  = 0.5,
@@ -91,6 +98,7 @@ p_bySex.title.text = "Distribución de renta de hombres y mujeres: " + dates
 p_bySex.xaxis.axis_label = 'log(Renta)'
 #p.yaxis.ticker = SingleIntervalTicker(interval=0)
 p_bySex.yaxis.axis_label = 'Densidad'
+
 
 
 def slider_update(attrname, old, new):
