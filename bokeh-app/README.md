@@ -7,4 +7,4 @@ To run the script, execute:
     bokeh serve --show weather/
 
 
-https://mybinder.org/v2/gh/cvalencia09/Bokeh2/myApp?urlpath=/proxy/5006/bokeh-app
+https://mybinder.org/v2/gh/cvalencia09/bokeh_renta_all/main?urlpath=/proxy/5006/bokeh-app

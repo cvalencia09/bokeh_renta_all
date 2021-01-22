@@ -57,7 +57,7 @@ p = figure(x_range=(1, 16), y_range=(0, 30), y_axis_type="linear",
 
 p.vbar(x = 'x', top = 'y', 
        color = 'grey', 
-       width = np.min(np.abs(np.array(source_all.data['x'])[0:-2] - np.array(source_all.data['x'])[1:-1])),
+       width = np.median(np.abs(np.array(source_all.data['x'])[0:-2] - np.array(source_all.data['x'])[1:-1])),
        visible  = True, 
        source = source_all,
        fill_alpha  = 0.5)
@@ -75,7 +75,7 @@ p_bySex = figure(x_range=(1, 16), y_range=(0, 30), y_axis_type="linear",
            tools = TOOLS, sizing_mode="fixed", width = 800, height = 300)
 
 p_bySex.vbar(x = 'x', top = 'y', 
-       width = np.min(np.abs(np.array(source_all.data['x'])[0:-2] - np.array(source_all.data['x'])[1:-1])),
+       width = np.median(np.abs(np.array(source_all.data['x'])[0:-2] - np.array(source_all.data['x'])[1:-1])),
        visible  = True, 
        source = source_all_bySex,
        fill_alpha  = 0.5,
