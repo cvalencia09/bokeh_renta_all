@@ -36,7 +36,12 @@ TOOLS = 'save,pan,box_zoom,reset,wheel_zoom'
 p = figure(x_range=(1, 16), y_range=(0, 30), y_axis_type="linear", plot_height = 400,
            tools = TOOLS, plot_width = 800)
 
-p.vbar(x = 'x', top = 'y', color = 'grey', width = np.min(np.abs(np.array(source.data['x'])[0:-2] - np.array(source.data['x'])[1:-1]))          , visible  = True, source = source)
+p.vbar(x = 'x', top = 'y', 
+       color = 'grey', 
+       width = np.min(np.abs(np.array(source.data['x'])[0:-2] - np.array(source.data['x'])[1:-1])),
+       visible  = True, 
+       source = source,
+       fill_alpha  = 0.5)
 
 p.add_tools(HoverTool(tooltips=[("Renta", "@x"), ("Densidad", "@y")]))
 p.title.text = "Distribución de renta: " + dates
